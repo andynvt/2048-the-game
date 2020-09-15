@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter2048/actions/gameInit.dart';
 import 'package:flutter2048/constants/Display.dart';
 import 'package:flutter2048/store/GameState.dart';
+import 'package:flutter2048/utils/Theme.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,9 +15,7 @@ class Scores extends StatelessWidget {
         scores: store.state.status.scores,
         total: store.state.status.total,
         isEnd: store.state.status.end,
-        reset: () {
-          gameInit(store, store.state.mode);
-        },
+        reset: () => gameInit(store, store.state.mode),
         onChange: (mode) => gameInit(store, mode),
       ),
       onDidChange: (props) {
@@ -221,7 +220,9 @@ class Scores extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          TTheme.shared.changeMode();
+                        },
                       ),
                     ],
                   ),
@@ -352,10 +353,3 @@ class ScoresProps {
   Function reset;
   Function onChange;
 }
-
-// class ModeSelectorProps {
-//   ModeSelectorProps({this.mode, this.onChange});
-
-//   int mode;
-//   Function onChange;
-// }
