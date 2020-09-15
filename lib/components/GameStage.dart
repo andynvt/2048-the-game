@@ -24,8 +24,7 @@ class GameStage extends StatelessWidget {
         initialState: GameState.initial(4),
       ),
       child: StoreConnector<GameState, GameProps>(
-        converter: (store) =>
-            GameProps(started: store.state.status.total != null),
+        converter: (store) => GameProps(started: store.state.status.total != null),
         onInit: (store) {
           gameInit(store, 4);
         },
@@ -34,10 +33,9 @@ class GameStage extends StatelessWidget {
               ? Container(
                   margin: EdgeInsets.all(Display.borderMargin),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      ModeSelector(),
                       Scores(),
                       Stack(
                         children: <Widget>[
@@ -45,6 +43,11 @@ class GameStage extends StatelessWidget {
                           Blocks(),
                           Playground(),
                         ],
+                      ),
+                      // ModeSelector(),
+                      Container(
+                        height: 50,
+                        color: Colors.grey,
                       ),
                     ],
                   ),

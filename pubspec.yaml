@@ -9,13 +9,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  device_info: ^0.4.1+1
 
-  cupertino_icons: ^0.1.2
+  device_info: ^0.4.1+1
   flutter_redux: ^0.5.3
   flutter_screenutil: ^0.6.0
   shared_preferences: ^0.5.4+1
   redux_thunk: ^0.2.1
+  flutter_launcher_icons: ^0.8.0
+
 
 dev_dependencies:
   flutter_test:
@@ -23,4 +24,14 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/images/
+  
+  fonts:
+    - family: SF-Pro
+      fonts:
+        - asset: assets/fonts/SF-Pro-Text-Regular.otf
+        - asset: assets/fonts/SF-Pro-Text-Bold.otf
+          weight: 700
   

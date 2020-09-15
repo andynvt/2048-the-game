@@ -33,16 +33,18 @@ class Scores extends StatelessWidget {
                 Text(
                   '2048',
                   style: TextStyle(
-                      fontSize: 50,
-                      color: Color(0xff776e65),
-                      fontWeight: FontWeight.bold),
+                    fontSize: 50,
+                    color: Color(0xff776e65),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     Container(
-                      padding: EdgeInsets.fromLTRB(23, 5, 23, 5),
-                      margin: EdgeInsets.only(right: 5),
+                      padding: EdgeInsets.fromLTRB(16, 5, 16, 5),
+                      width: 100,
+                      height: 50,
                       decoration: BoxDecoration(
                         color: Color(0xffbbada0),
                         border: Border.all(color: Colors.transparent, width: 0),
@@ -52,21 +54,20 @@ class Scores extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             'SCORE',
-                            style: TextStyle(
-                                color: Color(0xffeee4da),
-                                fontWeight: FontWeight.bold),
+                            style: TextStyle(color: Color(0xffeee4da), fontWeight: FontWeight.bold),
                           ),
                           Text(
                             props.scores.toString(),
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                           )
                         ],
                       ),
                     ),
+                    SizedBox(width: 5),
                     Container(
-                      padding: EdgeInsets.fromLTRB(23, 5, 23, 5),
+                      padding: EdgeInsets.fromLTRB(16, 5, 16, 5),
+                      width: 100,
+                      height: 50,
                       decoration: BoxDecoration(
                         color: Color(0xffbbada0),
                         border: Border.all(color: Colors.transparent, width: 0),
@@ -76,15 +77,11 @@ class Scores extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             'BEST',
-                            style: TextStyle(
-                                color: Color(0xffeee4da),
-                                fontWeight: FontWeight.bold),
+                            style: TextStyle(color: Color(0xffeee4da), fontWeight: FontWeight.bold),
                           ),
                           Text(
                             props.total.toString(),
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                           )
                         ],
                       ),
@@ -98,28 +95,65 @@ class Scores extends StatelessWidget {
               children: <Widget>[
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
+                  children: [
                     Text(
-                      'Play 2048 Game flutter',
+                      'Join the numbers',
                       style: TextStyle(
-                          color: Color(0xff776e65),
-                          fontWeight: FontWeight.bold),
+                        color: Color(0xff776e65),
+                        height: 1.2,
+                      ),
                     ),
-                    Text(
-                      'Join and get to the 2048 tile!',
-                      style: TextStyle(color: Color(0xff776e65)),
+                    RichText(
+                      text: TextSpan(
+                        text: 'and get to the ',
+                        style: TextStyle(
+                          color: Color(0xff776e65),
+                        ),
+                        children: [
+                          TextSpan(
+                            text: '2048 tile!',
+                            style: TextStyle(
+                              color: Color(0xff776e65),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
-                FlatButton(
-                  color: Color(0xff8f7a66),
-                  textColor: Colors.white,
-                  onPressed: () => props.reset(),
-                  child: Text(
-                    'New Game',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                )
+                SizedBox(width: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    SizedBox(
+                      width: 100,
+                      child: FlatButton(
+                        color: Color(0xff8f7a66),
+                        textColor: Colors.white,
+                        onPressed: () => props.reset(),
+                        padding: EdgeInsets.zero,
+                        child: Text(
+                          'New Game',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 5),
+                    SizedBox(
+                      width: 100,
+                      child: FlatButton(
+                        color: Color(0xff8f7a66),
+                        textColor: Colors.white,
+                        onPressed: () {},
+                        child: Text(
+                          'Setting',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ],

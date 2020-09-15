@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import './components/GameStage.dart';
-import './components/ViewScaffold.dart';
 
 void main() => runApp(GameApp());
 
@@ -12,10 +11,22 @@ class GameApp extends StatefulWidget {
 class GameAppState extends State<GameApp> {
   @override
   Widget build(BuildContext context) {
-    return ViewScaffold(
-      children: <Widget>[
-        GameStage(),
-      ],
+    return MaterialApp(
+      theme: ThemeData(
+        fontFamily: 'SF-Pro',
+      ),
+      home: Material(
+        color: const Color(0xfffaf8ef),
+        child: SafeArea(
+          left: false,
+          right: false,
+          child: Stack(
+            children: [
+              GameStage(),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
