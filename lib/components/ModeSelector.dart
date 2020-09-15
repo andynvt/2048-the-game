@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter2048/actions/gameInit.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import '../store/GameState.dart';
+import 'Scores.dart';
 
 class ModeSelector extends StatelessWidget {
   @override

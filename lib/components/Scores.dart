@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter2048/actions/gameInit.dart';
+import 'package:flutter2048/constants/Display.dart';
 import 'package:flutter2048/store/GameState.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,6 +17,7 @@ class Scores extends StatelessWidget {
         reset: () {
           gameInit(store, store.state.mode);
         },
+        onChange: (mode) => gameInit(store, mode),
       ),
       onDidChange: (props) {
         if (props.isEnd && props.scores > props.total) {
@@ -150,7 +152,7 @@ class Scores extends StatelessWidget {
                       child: FlatButton(
                         color: Color(0xff8f7a66),
                         textColor: Colors.white,
-                        onPressed: () {},
+                        onPressed: () => _settingClick(context, props),
                         child: Text(
                           'Setting',
                           style: TextStyle(fontWeight: FontWeight.bold),
@@ -166,14 +168,194 @@ class Scores extends StatelessWidget {
       },
     );
   }
+
+  void _settingClick(BuildContext context, ScoresProps props) {
+    final w = MediaQuery.of(context).size.width;
+    final width = (w - 64) / 3;
+    showModalBottomSheet(
+      context: context,
+      builder: (_) {
+        return Container(
+          color: Colors.white,
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 45,
+                            height: 45,
+                            child: FlatButton(
+                              padding: EdgeInsets.zero,
+                              child: Icon(Icons.info_outline),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(100),
+                              ),
+                              onPressed: () => _infoClick(_, context),
+                            ),
+                          ),
+                          SizedBox(width: 8),
+                          SizedBox(
+                            width: 45,
+                            height: 45,
+                            child: FlatButton(
+                              padding: EdgeInsets.zero,
+                              child: Icon(Icons.help_outline),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(100),
+                              ),
+                              onPressed: () => _helpClick(_, context),
+                            ),
+                          ),
+                        ],
+                      ),
+                      OutlineButton(
+                        child: Text('Light theme'),
+                        highlightedBorderColor: Colors.grey,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100),
+                        ),
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 16),
+                  Row(
+                    children: [
+                      Column(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(_).pop();
+                              props.onChange(3);
+                            },
+                            child: Container(
+                              color: Colors.red,
+                              height: width,
+                              width: width,
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Text('3 x 3')
+                        ],
+                      ),
+                      SizedBox(width: 16),
+                      Column(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(_).pop();
+                              props.onChange(4);
+                            },
+                            child: Container(
+                              color: Colors.red,
+                              height: width,
+                              width: width,
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Text('4 x 4')
+                        ],
+                      ),
+                      SizedBox(width: 16),
+                      Column(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(_).pop();
+                              props.onChange(5);
+                            },
+                            child: Container(
+                              color: Colors.red,
+                              height: width,
+                              width: width,
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Text('5 x 5')
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _infoClick(BuildContext bottom, BuildContext context) {
+    Navigator.of(bottom).pop();
+    showDialog(
+      context: context,
+      builder: (__) {
+        return AlertDialog(
+          title: Text(
+            'About',
+            style: TextStyle(
+              fontSize: 24,
+            ),
+          ),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(Display.about),
+              SizedBox(height: 16),
+              Text(
+                '2048 The Game ${Display.version}',
+                style: TextStyle(
+                  color: Colors.grey,
+                ),
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _helpClick(BuildContext bottom, BuildContext context) {
+    Navigator.of(bottom).pop();
+    showDialog(
+      context: context,
+      builder: (__) {
+        return AlertDialog(
+          title: Text(
+            'How to play',
+            style: TextStyle(
+              fontSize: 24,
+            ),
+          ),
+          content: Text(Display.howToPlay),
+        );
+      },
+    );
+  }
 }
 
 class ScoresProps {
-  ScoresProps({this.mode, this.total, this.scores, this.isEnd, this.reset});
+  ScoresProps({this.mode, this.total, this.scores, this.isEnd, this.reset, this.onChange});
 
   int mode;
   int total;
   int scores;
   bool isEnd;
   Function reset;
+  Function onChange;
 }
+
+// class ModeSelectorProps {
+//   ModeSelectorProps({this.mode, this.onChange});
+
+//   int mode;
+//   Function onChange;
+// }
