@@ -15,7 +15,8 @@ dependencies:
   flutter_screenutil: ^0.6.0
   shared_preferences: ^0.5.4+1
   redux_thunk: ^0.2.1
-  flutter_launcher_icons: ^0.8.0
+  # flutter_launcher_icons: ^0.8.0
+  auto_size_text: ^2.1.0
 
 
 dev_dependencies:
@@ -29,7 +30,7 @@ flutter:
     - assets/images/
   
   fonts:
-    - family: SF-Pro
+    - family: SFPro
       fonts:
         - asset: assets/fonts/SF-Pro-Text-Regular.otf
         - asset: assets/fonts/SF-Pro-Text-Bold.otf

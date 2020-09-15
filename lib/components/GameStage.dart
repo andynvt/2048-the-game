@@ -33,10 +33,13 @@ class GameStage extends StatelessWidget {
               ? Container(
                   margin: EdgeInsets.all(Display.borderMargin),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      Scores(),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 24),
+                        child: Scores(),
+                      ),
                       Stack(
                         children: <Widget>[
                           GameBg(),

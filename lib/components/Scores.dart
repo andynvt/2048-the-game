@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter2048/actions/gameInit.dart';
 import 'package:flutter2048/store/GameState.dart';
@@ -51,6 +52,7 @@ class Scores extends StatelessWidget {
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
                             'SCORE',
@@ -58,7 +60,11 @@ class Scores extends StatelessWidget {
                           ),
                           Text(
                             props.scores.toString(),
-                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
                           )
                         ],
                       ),
@@ -74,6 +80,7 @@ class Scores extends StatelessWidget {
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
                             'BEST',
@@ -81,7 +88,11 @@ class Scores extends StatelessWidget {
                           ),
                           Text(
                             props.total.toString(),
-                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
                           )
                         ],
                       ),
@@ -90,37 +101,31 @@ class Scores extends StatelessWidget {
                 ),
               ],
             ),
+            SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Join the numbers',
-                      style: TextStyle(
-                        color: Color(0xff776e65),
-                        height: 1.2,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AutoSizeText(
+                        'Join and get to the',
+                        maxLines: 2,
+                        // textAlign: TextAlign.le,
+                        style: TextStyle(
+                          height: 1.2,
+                        ),
                       ),
-                    ),
-                    RichText(
-                      text: TextSpan(
-                        text: 'and get to the ',
+                      Text(
+                        '2048 tile!',
                         style: TextStyle(
                           color: Color(0xff776e65),
+                          fontWeight: FontWeight.bold,
                         ),
-                        children: [
-                          TextSpan(
-                            text: '2048 tile!',
-                            style: TextStyle(
-                              color: Color(0xff776e65),
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 SizedBox(width: 12),
                 Row(

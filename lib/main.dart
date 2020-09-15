@@ -13,7 +13,7 @@ class GameAppState extends State<GameApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        fontFamily: 'SF-Pro',
+        fontFamily: 'SFPro',
       ),
       home: Material(
         color: const Color(0xfffaf8ef),
