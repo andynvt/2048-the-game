@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
-abstract class BaseBlock extends AnimatedWidget {
+abstract class BaseBlock extends Container {
   BaseBlock({Key key, Animation animation})
       : super(
           key: key,
-          listenable: animation,
+          // listenable: animation,
         );
 
   @override
   Widget build(BuildContext context) {
+    return buildBlock(context);
     // return StoreConnector<GameState, BlockProps>(
     //   converter: (store) => BlockProps(
     //         blockWidth: Screen.getBlockWidth(store.state.mode),
@@ -20,16 +21,13 @@ abstract class BaseBlock extends AnimatedWidget {
   }
 
   @protected
-  Widget buildBlock(
-    BuildContext context,
-    BlockProps props,
-  );
+  Widget buildBlock(BuildContext context);
 }
 
-class BlockProps {
-  double blockWidth;
-  double borderWidth;
-  int mode;
+// class BlockProps {
+//   double blockWidth;
+//   double borderWidth;
+//   int mode;
 
-  BlockProps({this.blockWidth, this.borderWidth, this.mode});
-}
+//   BlockProps({this.blockWidth, this.borderWidth, this.mode});
+// }

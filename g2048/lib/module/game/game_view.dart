@@ -6,6 +6,7 @@ class GameView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil(width: 750)..init(context);
+
     return Scaffold(
       body: SafeArea(
         child: Stack(

@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:g2048/model/model.dart';
+import 'package:g2048/service/service.dart';
 
 class HeadingScores extends StatelessWidget {
   @override
@@ -118,8 +119,9 @@ class HeadingScores extends StatelessWidget {
                   child: FlatButton(
                     color: Color(0xff8f7a66),
                     textColor: Colors.white,
-                    onPressed: () {},
-                    //  => props.reset(),
+                    onPressed: () {
+                      DataService.shared.initGame();
+                    },
                     padding: EdgeInsets.zero,
                     child: Text(
                       'New Game',

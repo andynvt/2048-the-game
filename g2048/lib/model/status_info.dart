@@ -1,10 +1,10 @@
 class GameStatus {
   GameStatus({
-    this.adds,
-    this.moves,
-    this.scores,
-    this.total,
-    this.end,
+    this.adds = 0,
+    this.moves = 0,
+    this.scores = 0,
+    this.total = 0,
+    this.end = false,
   });
 
   int scores;

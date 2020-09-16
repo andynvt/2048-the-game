@@ -1,14 +1,25 @@
 import 'dart:math';
+
+import 'package:flutter/material.dart';
 import 'package:g2048/model/model.dart';
+import 'package:g2048/res/res.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../service.dart';
 
-class GameState {
-  GameState({this.data, this.status, this.mode});
+class DataService extends ChangeNotifier {
+  static final shared = DataService();
 
-  int mode;
-  GameStatus status;
-  List<List<BlockInfo>> data;
+  int mode = 4;
+  GameStatus status = GameStatus();
+  List<List<BlockInfo>> data = [];
 
-  static GameState initial(int mode) {
+  DataService() {
+    //TODO: getmode from sharedpre
+
+    initGame();
+  }
+
+  void initGame() {
     var random = new Random(DateTime.now().millisecondsSinceEpoch);
     var gamesize = mode * mode;
     var block1 = random.nextInt(gamesize);
@@ -24,25 +35,28 @@ class GameState {
       var row = List<BlockInfo>();
       for (var j = 0; j < mode; j++) {
         var current = i * mode + j;
-        row.add(BlockInfo(
-            value: current == block1 || current == block2 ? 2 : 0,
-            current: current));
+        row.add(BlockInfo(value: current == block1 || current == block2 ? 2 : 0, current: current));
       }
       newdata.add(row);
     }
 
-    return GameState(
-      mode: mode,
-      status: GameStatus(
-        end: false,
-        scores: 0,
-        total: null,
-      ),
-      data: newdata,
-    );
+    data.clear();
+    data.addAll(newdata);
+    notifyListeners();
   }
 
-  BlockInfo getBlock(int i, int j) {
+  double blockWidth() {
+    return CS.getBlockWidth(mode);
+  }
+
+  double borderWidth() {
+    return CS.getBorderWidth(mode);
+  }
+
+  BlockInfo getBlock(int i, int j, {List<List<BlockInfo>> data}) {
+    if (data != null) {
+      return data[i][j];
+    }
     return this.data[i][j];
   }
 
@@ -77,6 +91,7 @@ class GameState {
     if (count <= 1) {
       status.end = isEnd();
     }
+    notifyListeners();
   }
 
   bool isEnd() {
@@ -123,34 +138,56 @@ class GameState {
     var temp = data[block1 ~/ mode][block1 % mode];
     data[block1 ~/ mode][block1 % mode] = data[block2 ~/ mode][block2 % mode];
     data[block2 ~/ mode][block2 % mode] = temp;
+    notifyListeners();
   }
 
-  GameState clone() {
-    var newdata = List<List<BlockInfo>>();
-    for (var i = 0; i < mode; i++) {
-      var row = List<BlockInfo>();
-      for (var j = 0; j < mode; j++) {
-        row.add(BlockInfo(
-          current: data[i][j].current,
-          value: data[i][j].value,
-          isNew: false,
-        ));
-      }
-      newdata.add(row);
-    }
+  DataService clone() {
+    return this;
 
-    return GameState(
-      data: newdata,
-      mode: this.mode,
-      status: this.status == null
-          ? null
-          : GameStatus(
-              adds: this.status.adds,
-              end: this.status.end,
-              moves: this.status.moves,
-              scores: this.status.scores,
-              total: this.status.total,
-            ),
-    );
+    // var newdata = List<List<BlockInfo>>();
+    // for (var i = 0; i < mode; i++) {
+    //   var row = List<BlockInfo>();
+    //   for (var j = 0; j < mode; j++) {
+    //     row.add(BlockInfo(
+    //       current: data[i][j].current,
+    //       value: data[i][j].value,
+    //       isNew: false,
+    //     ));
+    //   }
+    //   newdata.add(row);
+    // }
+
+    // (
+    //   data: newdata,
+    //   mode: this.mode,
+    //   status: this.status == null
+    //       ? null
+    //       : GameStatus(
+    //           adds: this.status.adds,
+    //           end: this.status.end,
+    //           moves: this.status.moves,
+    //           scores: this.status.scores,
+    //           total: this.status.total,
+    //         ),
+    // );
   }
+  // static gameInit(GameState state, int mode) async {
+  //   SharedPreferences refs = await SharedPreferences.getInstance();
+
+  //   var key = 'total_' + mode.toString();
+  //   if (state.status.total != null && state.status.scores > state.status.total) {
+  //     refs.setInt(key, state.status.scores);
+  //   }
+  //   var state1 = GameState.initial(mode);
+
+  //   state1.status = GameStatus(
+  //     adds: 0,
+  //     end: false,
+  //     moves: 0,
+  //     total: refs.getInt(key) ?? 0,
+  //     scores: 0,
+  //   );
+
+  //   // store.dispatch(UpdateStateAction(state));
+  // }
 }

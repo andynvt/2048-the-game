@@ -1,17 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:g2048/module/move/moveDown.dart';
+import 'package:g2048/module/move/moveLeft.dart';
+import 'package:g2048/module/move/moveRight.dart';
+import 'package:g2048/module/move/moveUp.dart';
 import 'package:g2048/res/res.dart';
 
 const pressTimeout = 200;
 const dragLength = 300;
 
-class Playground extends StatelessWidget {
+class Playground extends StatefulWidget {
+  @override
+  _PlaygroundState createState() => _PlaygroundState();
+}
+
+class _PlaygroundState extends State<Playground> {
+  int startTime;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      // onHorizontalDragStart: (evt) => onDragStart(evt, props),
-      // onHorizontalDragEnd: (evt) => onHorizontalDragEnd(evt, props),
-      // onVerticalDragStart: (evt) => onDragStart(evt, props),
-      // onVerticalDragEnd: (evt) => onVerticalDragEnd(evt, props),
+      onHorizontalDragStart: onDragStart,
+      onHorizontalDragEnd: onHorizontalDragEnd,
+      onVerticalDragStart: onDragStart,
+      onVerticalDragEnd: onVerticalDragEnd,
       child: Container(
         color: Colors.transparent,
         height: CS.stageWidth,
@@ -35,49 +46,27 @@ class Playground extends StatelessWidget {
     //           )
   }
 
-  void onDragStart(DragStartDetails evt, PlaygroundProps props) {
-    props.startTime = DateTime.now().millisecondsSinceEpoch;
+  void onDragStart(DragStartDetails evt) {
+    startTime = DateTime.now().millisecondsSinceEpoch;
   }
 
-  void onHorizontalDragEnd(DragEndDetails evt, PlaygroundProps props) {
-    if (DateTime.now().millisecondsSinceEpoch - props.startTime > pressTimeout ||
-        evt.primaryVelocity.abs() < dragLength) return;
-
+  void onHorizontalDragEnd(DragEndDetails evt) {
+    if (DateTime.now().millisecondsSinceEpoch - startTime > pressTimeout || evt.primaryVelocity.abs() < dragLength) return;
     if (evt.primaryVelocity > 0) {
-      props.onRight();
+      print('right');
+      moveRight();
     } else {
-      props.onLeft();
+      print('left');
+      moveLeft();
     }
   }
 
-  void onVerticalDragEnd(DragEndDetails evt, PlaygroundProps props) {
-    if (DateTime.now().millisecondsSinceEpoch - props.startTime > pressTimeout ||
-        evt.primaryVelocity.abs() < dragLength) return;
-    // 是否ios和android纵轴是相反的？
+  void onVerticalDragEnd(DragEndDetails evt) {
+    if (DateTime.now().millisecondsSinceEpoch - startTime > pressTimeout || evt.primaryVelocity.abs() < dragLength) return;
     if (evt.primaryVelocity < 0) {
-      props.onUp();
+      moveUp();
     } else {
-      props.onDown();
+      moveDown();
     }
   }
-}
-
-class PlaygroundProps {
-  int mode;
-  bool end;
-  int startTime;
-  Function onLeft;
-  Function onRight;
-  Function onUp;
-  Function onDown;
-
-  PlaygroundProps({
-    this.end,
-    this.mode,
-    this.startTime,
-    this.onDown,
-    this.onLeft,
-    this.onRight,
-    this.onUp,
-  });
 }

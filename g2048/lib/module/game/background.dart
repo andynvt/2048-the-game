@@ -1,44 +1,65 @@
 import 'package:flutter/material.dart';
-import 'package:g2048/model/model.dart';
 import 'package:g2048/res/res.dart';
-import 'package:g2048/service/data/data_service.dart';
+import 'package:g2048/service/service.dart';
+import 'package:g2048/widget/widget.dart';
 
 class Background extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // padding: EdgeInsets.fromLTRB(CS.getBorderWidth(GameState.mode), vm.borderWidth, 0, 0),
-      padding: EdgeInsets.fromLTRB(CS.getBorderWidth(4), CS.getBorderWidth(4), 0, 0),
-      decoration: BoxDecoration(
-        color: const Color(0xffbbada0),
-        border: Border.all(color: Colors.transparent, width: 0),
-        borderRadius: BorderRadius.circular(5),
+    return AspectRatio(
+      aspectRatio: 1,
+      child: Consum<DataService>(
+        value: DataService.shared,
+        builder: (_, service) {
+          return Container(
+            padding: EdgeInsets.fromLTRB(
+              CS.getBorderWidth(service.mode),
+              CS.getBorderWidth(service.mode),
+              0,
+              0,
+            ),
+            decoration: BoxDecoration(
+              color: const Color(0xffbbada0),
+              border: Border.all(color: Colors.transparent, width: 0),
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: getGrid(service),
+          );
+        },
       ),
-      // child: getGrid(vm),
     );
   }
-  Widget getGrid(GameBgProps props) {
+
+  Widget getGrid(DataService service) {
     var rows = <Widget>[];
-    for (var i = 0; i < props.mode; i++) {
+    for (var i = 0; i < service.mode; i++) {
       var columns = <Widget>[];
-      for (var j = 0; j < props.mode; j++) {
-        columns.add(Container(
-          width: props.blockWidth,
-          height: props.blockWidth,
-          decoration: BoxDecoration(
-            color: Color.fromRGBO(238, 228, 218, 0.35),
-            border: Border.all(color: Colors.transparent, width: 0),
-            borderRadius: BorderRadius.circular(5),
+      for (var j = 0; j < service.mode; j++) {
+        columns.add(
+          Container(
+            width: CS.getBlockWidth(service.mode),
+            height: CS.getBlockWidth(service.mode),
+            decoration: BoxDecoration(
+              color: Color.fromRGBO(238, 228, 218, 0.35),
+              border: Border.all(color: Colors.transparent, width: 0),
+              borderRadius: BorderRadius.circular(5),
+            ),
+            margin: EdgeInsets.fromLTRB(
+              0,
+              0,
+              CS.getBorderWidth(service.mode),
+              CS.getBorderWidth(service.mode),
+            ),
           ),
-          margin:
-              EdgeInsets.fromLTRB(0, 0, props.borderWidth, props.borderWidth),
-        ));
+        );
       }
-      rows.add(Row(
-        textDirection: TextDirection.ltr,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: columns,
-      ));
+      rows.add(
+        Row(
+          textDirection: TextDirection.ltr,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: columns,
+        ),
+      );
     }
     return Column(
       children: rows,
