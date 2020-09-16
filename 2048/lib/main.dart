@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import 'module/module.dart';
+import 'game.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final appTitle = '2048';
     return MaterialApp(
-      // theme: ThemeData.dark(),
-      home: Scaffold(
-        body: SafeArea(
-          child: GameView(),
+      title: appTitle,
+      home: new Scaffold(
+        body: GameWidget(
+          row: 4,
+          column: 4,
         ),
       ),
     );

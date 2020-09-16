@@ -1,21 +1,18 @@
 import 'dart:math' show Random;
 
-import 'package:the_game_2048/service/data/data_service.dart';
+class Game {
+  final int row;
+  final int column;
+  int score;
 
-class GameLogic {
-  // final int service.row;
-  // final int service.column;
-  // int score;
-
-  // GameInfo(this.row, this.column);
-  final service = DataService.shared();
+  Game(this.row, this.column);
 
   List<List<BoardCell>> _boardCells;
   void init() {
     _boardCells = List<List<BoardCell>>();
-    for (int r = 0; r < service.row; ++r) {
+    for (int r = 0; r < row; ++r) {
       _boardCells.add(List<BoardCell>());
-      for (int c = 0; c < service.column; ++c) {
+      for (int c = 0; c < column; ++c) {
         _boardCells[r].add(BoardCell(
           row: r,
           column: c,
@@ -24,7 +21,7 @@ class GameLogic {
         ));
       }
     }
-    service.updateScore(0);
+    score = 0;
     resetMergeStatus();
     randomEmptyCell(2);
   }
@@ -37,8 +34,8 @@ class GameLogic {
     if (!canMoveLeft()) {
       return;
     }
-    for (int r = 0; r < service.row; ++r) {
-      for (int c = 0; c < service.column; ++c) {
+    for (int r = 0; r < row; ++r) {
+      for (int c = 0; c < column; ++c) {
         mergeLeft(r, c);
       }
     }
@@ -50,8 +47,8 @@ class GameLogic {
     if (!canMoveRight()) {
       return;
     }
-    for (int r = 0; r < service.row; ++r) {
-      for (int c = service.column - 2; c >= 0; --c) {
+    for (int r = 0; r < row; ++r) {
+      for (int c = column - 2; c >= 0; --c) {
         mergeRight(r, c);
       }
     }
@@ -63,8 +60,8 @@ class GameLogic {
     if (!canMoveUp()) {
       return;
     }
-    for (int r = 0; r < service.row; ++r) {
-      for (int c = 0; c < service.column; ++c) {
+    for (int r = 0; r < row; ++r) {
+      for (int c = 0; c < column; ++c) {
         mergeUp(r, c);
       }
     }
@@ -76,8 +73,8 @@ class GameLogic {
     if (!canMoveDown()) {
       return;
     }
-    for (int r = service.row - 2; r >= 0; --r) {
-      for (int c = 0; c < service.column; ++c) {
+    for (int r = row - 2; r >= 0; --r) {
+      for (int c = 0; c < column; ++c) {
         mergeDown(r, c);
       }
     }
@@ -86,8 +83,8 @@ class GameLogic {
   }
 
   bool canMoveLeft() {
-    for (int r = 0; r < service.row; ++r) {
-      for (int c = 1; c < service.column; ++c) {
+    for (int r = 0; r < row; ++r) {
+      for (int c = 1; c < column; ++c) {
         if (canMerge(_boardCells[r][c], _boardCells[r][c - 1])) {
           return true;
         }
@@ -97,8 +94,8 @@ class GameLogic {
   }
 
   bool canMoveRight() {
-    for (int r = 0; r < service.row; ++r) {
-      for (int c = service.column - 2; c >= 0; --c) {
+    for (int r = 0; r < row; ++r) {
+      for (int c = column - 2; c >= 0; --c) {
         if (canMerge(_boardCells[r][c], _boardCells[r][c + 1])) {
           return true;
         }
@@ -108,8 +105,8 @@ class GameLogic {
   }
 
   bool canMoveUp() {
-    for (int r = 1; r < service.row; ++r) {
-      for (int c = 0; c < service.column; ++c) {
+    for (int r = 1; r < row; ++r) {
+      for (int c = 0; c < column; ++c) {
         if (canMerge(_boardCells[r][c], _boardCells[r - 1][c])) {
           return true;
         }
@@ -119,8 +116,8 @@ class GameLogic {
   }
 
   bool canMoveDown() {
-    for (int r = service.row - 2; r >= 0; --r) {
-      for (int c = 0; c < service.column; ++c) {
+    for (int r = row - 2; r >= 0; --r) {
+      for (int c = 0; c < column; ++c) {
         if (canMerge(_boardCells[r][c], _boardCells[r + 1][c])) {
           return true;
         }
@@ -137,7 +134,7 @@ class GameLogic {
   }
 
   void mergeRight(int r, int c) {
-    while (c < service.column - 1) {
+    while (c < column - 1) {
       merge(_boardCells[r][c], _boardCells[r][c + 1]);
       c++;
     }
@@ -151,14 +148,15 @@ class GameLogic {
   }
 
   void mergeDown(int r, int c) {
-    while (r < service.row - 1) {
+    while (r < row - 1) {
       merge(_boardCells[r][c], _boardCells[r + 1][c]);
       r++;
     }
   }
 
   bool canMerge(BoardCell a, BoardCell b) {
-    return !b.isMerged && ((b.isEmpty() && !a.isEmpty()) || (!a.isEmpty() && a == b));
+    return !b.isMerged &&
+        ((b.isEmpty() && !a.isEmpty()) || (!a.isEmpty() && a == b));
   }
 
   void merge(BoardCell a, BoardCell b) {
@@ -175,7 +173,7 @@ class GameLogic {
     } else if (a == b) {
       b.number = b.number * 2;
       a.number = 0;
-      service.updateScore(b.number);
+      score += b.number;
       b.isMerged = true;
     } else {
       b.isMerged = true;

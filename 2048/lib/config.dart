@@ -15,12 +15,4 @@ class Config {
     512: Colors.orange[800],
     1024: Colors.orange[900],
   };
-  static final EdgeInsets gameMargin = const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0);
-  static double cellPadding = 5.0;
-
-  static Size boardSize(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    num width = size.width - Config.gameMargin.left - Config.gameMargin.right;
-    return Size(width, width);
-  }
 }
